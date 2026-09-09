@@ -1,3 +1,4 @@
+from database import add_expense
 import tkinter as tk
 from tkinter import ttk
 def create_gui():
@@ -41,6 +42,28 @@ def create_gui():
     description_label.pack()
     description_entry = tk.Entry(root)
     description_entry.pack()
+    def save_expense():
+        date = date_entry.get()
+        amount = amount_entry.get()
+        category = category_combo.get()
+        description = description_entry.get()
+        add_expense(
+            date,
+            float(amount),
+            category,
+            description
+        )
+        date_entry.delete(0, tk.END)
+        amount_entry.delete(0, tk.END)
+        description_entry.delete(0, tk.END)
+        category_combo.set("")
+        root.mainloop()
+    add_button = tk.Button(
+        root,
+        text="Add Expense",
+        command=save_expense
+    )
+    add_button.pack(pady=20)
     root.mainloop()
 if __name__ == "__main__":
     create_gui()
