@@ -1,4 +1,5 @@
 from database import add_expense
+from database import get_expenses
 import tkinter as tk
 from tkinter import ttk
 def create_gui():
@@ -57,6 +58,7 @@ def create_gui():
         amount_entry.delete(0, tk.END)
         description_entry.delete(0, tk.END)
         category_combo.set("")
+        load_expenses()
     add_button = tk.Button(
         root,
         text="Add Expense",
@@ -90,6 +92,17 @@ def create_gui():
         padx=20,
         pady=20
     )
+    def load_expenses():
+        for row in expense_table.get_children():
+            expense_table.delete(row)
+        expenses = get_expenses()
+        for expense in expenses:
+            expense_table.insert(
+                "",
+                tk.END,
+                values=expense
+            )
+    load_expenses()  # Load expenses when the GUI starts
     root.mainloop()
 if __name__ == "__main__":
     create_gui()
