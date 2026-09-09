@@ -2,6 +2,9 @@ from database import add_expense
 from database import get_expenses
 from database import delete_expense
 from database import get_monthly_total
+from charts import show_category_chart
+from charts import show_monthly_chart
+from export import export_expenses
 import tkinter as tk
 from tkinter import ttk
 def create_gui():
@@ -78,6 +81,38 @@ def create_gui():
         command=save_expense
     )
     add_button.pack(pady=20)
+    chart_button = tk.Button(
+        root,
+        text="Category Chart",
+        command=show_category_chart
+    )
+    chart_button.pack(pady=10)
+    monthly_chart_button = tk.Button(
+        root,
+        text="Monthly Chart",
+        command=show_monthly_chart
+    )
+    monthly_chart_button.pack(pady=10)
+    export_button = tk.Button(
+        root,
+        text="Export CSV",
+        command=export_expenses
+    )
+    export_button.pack(pady=10)
+    def remove_expense():
+        selected = expense_table.selection()
+        if not selected:
+            return
+        item = expense_table.item(selected[0])
+        expense_id = item["values"][0]
+        delete_expense(expense_id)
+        load_expenses()
+    delete_button = tk.Button(
+        root,
+        text="Delete Expense",
+        command=remove_expense
+    )
+    delete_button.pack()
     columns = (
         "ID",
         "Date",
@@ -117,20 +152,6 @@ def create_gui():
             )
         update_total()
     load_expenses()
-    def remove_expense():
-        selected = expense_table.selection()
-        if not selected:
-            return
-        item = expense_table.item(selected[0])
-        expense_id = item["values"][0]
-        delete_expense(expense_id)
-        load_expenses()
-    delete_button = tk.Button(
-        root,
-        text="Delete Expense",
-        command=remove_expense
-    )
-    delete_button.pack()
     root.mainloop()
 if __name__ == "__main__":
     create_gui()
