@@ -5,6 +5,7 @@ from database import get_monthly_total
 from charts import show_category_chart
 from charts import show_monthly_chart
 from export import export_expenses
+from tkinter import messagebox
 import tkinter as tk
 from tkinter import ttk
 def create_gui():
@@ -109,7 +110,12 @@ def create_gui():
             return
         item = expense_table.item(selected[0])
         expense_id = item["values"][0]
-        delete_expense(expense_id)
+        answer = messagebox.askyesno(
+            "Delete Expense",
+            "Are you sure you want to delete this expense?"
+        )
+        if answer:
+            delete_expense(expense_id)
         load_expenses()
     delete_button = tk.Button(
         root,
