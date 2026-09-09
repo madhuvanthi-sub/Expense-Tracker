@@ -69,12 +69,3 @@ def update_expense(
     ))
     connection.commit()
     connection.close()
-if __name__ == "__main__":
-    create_database()
-    add_expense(
-        "09-09-2026",
-        250,
-        "Food",
-        "Lunch"
-    )
-    print(get_expenses())
