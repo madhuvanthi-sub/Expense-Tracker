@@ -25,6 +25,10 @@ def create_gui():
     amount_label.pack()
     amount_entry = tk.Entry(root)
     amount_entry.pack()
+    try:
+        amount = float(amount_entry.get())
+    except ValueError:
+        ...
     category_label = tk.Label(root, text="Category")
     category_label.pack()
     category_combo = ttk.Combobox(
