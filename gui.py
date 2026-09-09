@@ -57,13 +57,39 @@ def create_gui():
         amount_entry.delete(0, tk.END)
         description_entry.delete(0, tk.END)
         category_combo.set("")
-        root.mainloop()
     add_button = tk.Button(
         root,
         text="Add Expense",
         command=save_expense
     )
     add_button.pack(pady=20)
+    columns = (
+        "ID",
+        "Date",
+        "Amount",
+        "Category",
+        "Description"
+    )
+    expense_table = ttk.Treeview(
+        root,
+        columns=columns,
+        show="headings"
+    )
+    for column in columns:
+        expense_table.heading(
+            column,
+            text=column
+        )
+        expense_table.column(
+            column,
+            width=120
+        )
+    expense_table.pack(
+        fill="both",
+        expand=True,
+        padx=20,
+        pady=20
+    )
     root.mainloop()
 if __name__ == "__main__":
     create_gui()
