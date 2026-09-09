@@ -1,6 +1,7 @@
 from database import add_expense
 from database import get_expenses
 from database import delete_expense
+from database import get_monthly_total
 import tkinter as tk
 from tkinter import ttk
 def create_gui():
@@ -44,6 +45,17 @@ def create_gui():
     description_label.pack()
     description_entry = tk.Entry(root)
     description_entry.pack()
+    total_label = tk.Label(
+        root,
+        text="Monthly Total: ₹0",
+        font=("Arial", 18, "bold")
+    )
+    total_label.pack(pady=10)
+    def update_total():
+        total = get_monthly_total()
+        total_label.config(
+            text=f"Monthly Total: ₹{total:.2f}"
+        )
     def save_expense():
         date = date_entry.get()
         amount = amount_entry.get()
@@ -103,6 +115,7 @@ def create_gui():
                 tk.END,
                 values=expense
             )
+        update_total()
     load_expenses()
     def remove_expense():
         selected = expense_table.selection()

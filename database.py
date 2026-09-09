@@ -1,4 +1,7 @@
+from datetime import datetime
+from multiprocessing.dummy import connection
 import sqlite3
+from unittest import result
 DATABASE_NAME = "expenses.db"
 def create_database():
     connection = sqlite3.connect(DATABASE_NAME)
@@ -69,3 +72,15 @@ def update_expense(
     ))
     connection.commit()
     connection.close()
+def get_monthly_total():
+    connection = sqlite3.connect(DATABASE_NAME)
+    cursor = connection.cursor()
+    current_month = datetime.now().strftime("%Y-%m")
+    cursor.execute("""
+        SELECT SUM(amount)
+        FROM expenses
+        WHERE substr(date, 1, 7) = ?
+    """, (current_month,))
+    result = cursor.fetchone()[0]
+    connection.close()
+    return result if result else 0
