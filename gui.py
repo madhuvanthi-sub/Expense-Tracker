@@ -1,5 +1,6 @@
 from database import add_expense
 from database import get_expenses
+from database import delete_expense
 import tkinter as tk
 from tkinter import ttk
 def create_gui():
@@ -102,7 +103,21 @@ def create_gui():
                 tk.END,
                 values=expense
             )
-    load_expenses()  # Load expenses when the GUI starts
+    load_expenses()
+    def remove_expense():
+        selected = expense_table.selection()
+        if not selected:
+            return
+        item = expense_table.item(selected[0])
+        expense_id = item["values"][0]
+        delete_expense(expense_id)
+        load_expenses()
+    delete_button = tk.Button(
+        root,
+        text="Delete Expense",
+        command=remove_expense
+    )
+    delete_button.pack()
     root.mainloop()
 if __name__ == "__main__":
     create_gui()
